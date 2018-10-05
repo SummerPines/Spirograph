@@ -40,12 +40,12 @@ namespace Spirograph {
         /// Check for input errors
         /// </summary>
         private void btnMake_Click(object sender, RoutedEventArgs e) {
-            if (!int.TryParse(txtNumPoints.Text, out int numPoints))
-                MessageBox.Show("Please enter a number of points");
-            else if (!int.TryParse(txtRadius.Text, out int radius))
-                MessageBox.Show("Please enter a radius");
+            if (!int.TryParse(txtSmallRadius.Text, out int smallRad))
+                MessageBox.Show("Please enter a radius for the small circle");
+            else if (!int.TryParse(txtLargeRadius.Text, out int largeRad))
+                MessageBox.Show("Please enter a radius for the large circle");
             else
-                drawSpirograph(numPoints, radius);
+                drawSpirograph(smallRad, largeRad);
         }
 
         /// <summary>
@@ -53,41 +53,18 @@ namespace Spirograph {
         /// Creates a circle object and uses the point in the object to draw the spirograph
         /// Uses StreamGeometry class to draw in WPF
         /// </summary>
-        /// <param name="numPoints"></param>
-        /// <param name="radius"></param>
-        private void drawSpirograph(int numPoints, int radius) {
-            Circle newCircle = new Circle(numPoints, radius);
+        /// <param name="smallRad">the radius of the smaller circle</param>
+        /// <param name="radius">the radius of the outer circle</param>
+        private void drawSpirograph(int smallRad, int largeRad) {
+            Circle smallCircle = new Circle(smallRad);
+            Circle largeCircle = new Circle(largeRad);
+            Spiro spiro = new Spiro(smallCircle, largeCircle);
 
-            Path path = new Path();
-            path.Stroke = Brushes.Red;
-            path.StrokeThickness = 2;
-
-            StreamGeometry geo = new StreamGeometry();
-            using (StreamGeometryContext ctx= geo.Open()) {
-
-                //Set start point of StreamGeometry path
-                ctx.BeginFigure(newCircle.Start, true, false);
- 
-                //Draw arcs connecting all points in the circle object
-                for (int i = 1; i < numPoints; i++) 
-                    ctx.ArcTo(newCircle.Points[i], new Size(10, 10), 0, false, SweepDirection.Clockwise, true, true);
-
-                ctx.ArcTo(newCircle.Start, new Size(10, 10), 0, false, SweepDirection.Clockwise, true, true);
-            }
-
-            //recommended for speed
-            geo.Freeze();
-
-            path.Data = geo;
+            Path path = spiro.getPath();
 
             //Draw the arcs to the stack panel
-            StackPanel stkMain = new StackPanel();
-            stkMain.Children.Add(path);
-
-            gridSpiro.Children.Add(stkMain);
-            
+            stkMain.Children.Clear();
+            stkMain.Children.Add(path);           
         }
-
-
     }
 }
