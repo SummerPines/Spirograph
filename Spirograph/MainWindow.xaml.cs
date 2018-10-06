@@ -15,16 +15,8 @@ using System.Windows.Shapes;
 
 
 //Citation: StreamGometry use from   https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/how-to-create-a-shape-using-a-streamgeometry
-/* path of spirograph
- x(t)=(R+r)cos(t) + p*cos((R+r)t/r) 
-y(t)=(R+r)sin(t) + p*sin((R+r)t/r) 
-r= small radius
-R = large Radius
-p = position
+//Citation: Use of slider from https://www.wpf-tutorial.com/misc-controls/the-slider-control/
 
-x	=	(a+b)cosphi-bcos((a+b)/bphi)	
-y	=	(a+b)sinphi-bsin((a+b)/bphi).
-*/
 namespace Spirograph {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -40,12 +32,13 @@ namespace Spirograph {
         /// Check for input errors
         /// </summary>
         private void btnMake_Click(object sender, RoutedEventArgs e) {
-            if (!int.TryParse(txtSmallRadius.Text, out int smallRad))
-                MessageBox.Show("Please enter a radius for the small circle");
-            else if (!int.TryParse(txtLargeRadius.Text, out int largeRad))
-                MessageBox.Show("Please enter a radius for the large circle");
-            else
-                drawSpirograph(smallRad, largeRad);
+            int largeRad = (int)sldLargeRad.Value;
+            int smallRad = (int)sldSmallRad.Value;
+            int rotations = (int)sldRoataions.Value;
+
+            SolidColorBrush color = getColor();
+            
+            drawSpirograph(smallRad, largeRad, rotations, color);
         }
 
         /// <summary>
@@ -55,16 +48,38 @@ namespace Spirograph {
         /// </summary>
         /// <param name="smallRad">the radius of the smaller circle</param>
         /// <param name="radius">the radius of the outer circle</param>
-        private void drawSpirograph(int smallRad, int largeRad) {
+        private void drawSpirograph(int smallRad, int largeRad, int rotations, SolidColorBrush color) {
             Circle smallCircle = new Circle(smallRad);
             Circle largeCircle = new Circle(largeRad);
-            Spiro spiro = new Spiro(smallCircle, largeCircle);
+            Spiro spiro = new Spiro(smallCircle, largeCircle, rotations);
 
-            Path path = spiro.getPath();
+            Path path = spiro.getPath(color);
 
             //Draw the arcs to the stack panel
             stkMain.Children.Clear();
             stkMain.Children.Add(path);           
+        }
+
+        //Read the textboxes to determine brush color
+        private SolidColorBrush getColor() {
+            SolidColorBrush color;
+
+            if (rbBlue.IsChecked == true)
+                color = Brushes.CornflowerBlue;
+            else if (rbCoral.IsChecked == true)
+                color = Brushes.Salmon;
+            else if (rbGreen.IsChecked == true)
+                color = Brushes.LimeGreen;
+            else if (rbLavender.IsChecked == true)
+                color = Brushes.Violet;
+            else if (rbLtBlue.IsChecked == true)
+                color = Brushes.LightBlue;
+            else if (rbOrange.IsChecked == true)
+                color = Brushes.Orange;
+            else
+                color = Brushes.Black;
+
+            return color;
         }
     }
 }

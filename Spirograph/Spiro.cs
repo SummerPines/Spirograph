@@ -10,7 +10,7 @@ using System.Windows.Media;
 namespace Spirograph {
 
     /// <summary>
-    /// Spirograph Class
+    /// Spiro Class
     /// Contains needed items to make the spirograph
     /// Citation: Parametric equation of a circle https://www.mathopenref.com/coordparamcircle.html
     /// </summary>
@@ -35,7 +35,15 @@ namespace Spirograph {
             set { _pointsList = value; }
         }
 
-        public Spiro(Circle small, Circle large) {
+        /***************************************************************************************
+         * Constructor for Spiro
+         * 1. Creates a Spiro instance
+         * 2. Creates the small and large circles
+         * 3. Calculates all points where small circle will touch large circle
+         * 4. Creates a list with those points
+         * 5. Draws arc between the points
+         * *************************************************************************************/
+        public Spiro(Circle small, Circle large, int rotations) {
 
             SmallCircle = small;
             LargeCircle = large;
@@ -49,9 +57,9 @@ namespace Spirograph {
             //2pi radians in a full circle
             double radiansBetweenPoints = (2 * Math.PI) * (SmallCircle.Circumference / LargeCircle.Circumference);
 
-            //I want to go around the large circle 10 times. The number of points needed to do this is
-            //circumference of large circle / circumference of small circle * 10
-            int numPoints = (int)Math.Round(LargeCircle.Circumference / SmallCircle.Circumference) * 10;
+            //I want to go around the large circle a selected # of times. The number of points needed to do this is
+            //circumference of large circle / circumference of small circle * rotations
+            int numPoints = (int)Math.Round(LargeCircle.Circumference / SmallCircle.Circumference) * rotations;
 
             //Add points on circle to the array
             //The formula for the x and y coordinated can be found using the parametric equation
@@ -67,9 +75,10 @@ namespace Spirograph {
             }
         }
 
-        internal Path getPath() {
+        //Create the Path object to draw the spirograph
+        internal Path getPath(SolidColorBrush color) {
             Path path = new Path();
-            path.Stroke = Brushes.Red;
+            path.Stroke = color;
             path.StrokeThickness = 2;
 
             StreamGeometry geo = new StreamGeometry();
@@ -80,7 +89,7 @@ namespace Spirograph {
 
                 //Draw arcs connecting all points in the circle object
                 for (int i = 1; i < PointsList.Count; i++)
-                    streamGeoCtx.ArcTo(PointsList[i], new Size(10, 10), 0, false, SweepDirection.Clockwise, true, true);
+                    streamGeoCtx.ArcTo(PointsList[i], new Size(5, 5), 0, false, SweepDirection.Clockwise, true, true);
             }
 
             //recommended for speed

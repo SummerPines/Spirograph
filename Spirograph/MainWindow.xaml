@@ -5,14 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Spirograph"
         mc:Ignorable="d"
-        Title="MainWindow" Height="750" Width="1100">
-    <Grid x:Name="gridSpiro" Margin="0,85,-0.4,88.4">
-        <Label Content="Radius of Inner Circle" HorizontalAlignment="Left" Margin="72,-39,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtSmallRadius" HorizontalAlignment="Left" Height="23" Margin="72,-62,0,0" TextWrapping="Wrap" Text="32" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Radius of Outer Circle (points)" HorizontalAlignment="Left" Margin="330,-39,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtLargeRadius" HorizontalAlignment="Left" Height="23" Margin="330,-67,0,0" TextWrapping="Wrap" Text="200" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="btnMake" Content="Make Spiro-graph!" HorizontalAlignment="Left" Margin="556,-44,0,0" VerticalAlignment="Top" Width="123" Click="btnMake_Click"/>
-        <StackPanel x:Name="stkMain" HorizontalAlignment="Left" Height="605" Margin="27,10,0,-67.6" VerticalAlignment="Top" Width="1057"/>
+        Title="Virtual Spiro-Graph" Height="750" Width="1100">
+    <Grid x:Name="gridSpiro" Margin="0,85,-0.4,5.8">
+        <Label Content="Radius of Inner Circle" HorizontalAlignment="Left" Margin="72,-44,0,0" VerticalAlignment="Top"/>
+        <Label Content="Radius of Outer Circle" HorizontalAlignment="Left" Margin="293,-44,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btnMake" Content="Make Spiro-graph!" HorizontalAlignment="Left" Margin="737,-60,0,0" VerticalAlignment="Top" Width="123" Click="btnMake_Click"/>
+        <StackPanel x:Name="stkMain" HorizontalAlignment="Left" Margin="10,12,0,0" Width="910"/>
+        <Slider x:Name="sldLargeRad" HorizontalAlignment="Left" Margin="284,-68,0,0" VerticalAlignment="Top" Width="145" Minimum="100" Maximum="200" TickFrequency="10" TickPlacement="BottomRight" SmallChange="10" LargeChange="10" IsSnapToTickEnabled="True" Value="200"/>
+        <Slider x:Name="sldSmallRad" HorizontalAlignment="Left" Margin="66,-68,0,0" VerticalAlignment="Top" Width="145" Minimum="9" Maximum="{Binding ElementName=sldLargeRad, Path=Value, UpdateSourceTrigger=PropertyChanged}" TickFrequency="6" TickPlacement="BottomRight" SmallChange="4" LargeChange="4" IsSnapToTickEnabled="True" Value="31"/>
+        <TextBox Text="{Binding ElementName=sldSmallRad, Path=Value, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="211,-67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="33"/>
+        <TextBox Text="{Binding Value, ElementName=sldLargeRad, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="434,-67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="33"/>
+        <Label Content="# Rotations of Inner Circle" HorizontalAlignment="Left" Margin="499,-45,0,0" VerticalAlignment="Top"/>
+        <Slider x:Name="sldRoataions" HorizontalAlignment="Left" Margin="490,-69,0,0" VerticalAlignment="Top" Width="145" Minimum="1" Maximum="300" TickPlacement="BottomRight" Value="20" TickFrequency="10" IsSnapToTickEnabled="True"/>
+        <TextBox Text="{Binding Value, ElementName=sldRoataions, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="640,-68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="33"/>
+        <GroupBox Header="GroupBox" HorizontalAlignment="Left" Height="100" Margin="1236,54,-242,0" VerticalAlignment="Top" Width="100"/>
+        <GroupBox x:Name="grpColors" Header="Pen Colors" HorizontalAlignment="Left" Height="154" Margin="968,40,0,0" VerticalAlignment="Top" Width="100">
+            <StackPanel x:Name="stkColors" HorizontalAlignment="Left" Margin="0,18,-2.8,1.6" Width="90">
+                <RadioButton x:Name="rbBlue" Content="Blue"/>
+                <RadioButton x:Name="rbGreen" Content="Green"/>
+                <RadioButton x:Name="rbBlack" Content="Black"/>
+                <RadioButton x:Name="rbCoral" Content="Coral"/>
+                <RadioButton x:Name="rbLavender" Content="Lavender"/>
+                <RadioButton x:Name="rbOrange" Content="Orange"/>
+                <RadioButton x:Name="rbLtBlue" Content="Lt Blue"/>
+            </StackPanel>
+        </GroupBox>
 
 
     </Grid>
