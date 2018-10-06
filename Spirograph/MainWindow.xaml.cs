@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+﻿using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 
@@ -25,6 +14,7 @@ namespace Spirograph {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+            btnMake_Click(new object(), new RoutedEventArgs());
         }
 
         /// <summary>
@@ -37,7 +27,7 @@ namespace Spirograph {
             int rotations = (int)sldRoataions.Value;
 
             SolidColorBrush color = getColor();
-            
+
             drawSpirograph(smallRad, largeRad, rotations, color);
         }
 
@@ -57,7 +47,7 @@ namespace Spirograph {
 
             //Draw the arcs to the stack panel
             stkMain.Children.Clear();
-            stkMain.Children.Add(path);           
+            stkMain.Children.Add(path);
         }
 
         //Read the textboxes to determine brush color

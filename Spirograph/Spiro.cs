@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Shapes;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace Spirograph {
 
@@ -13,6 +10,7 @@ namespace Spirograph {
     /// Spiro Class
     /// Contains needed items to make the spirograph
     /// Citation: Parametric equation of a circle https://www.mathopenref.com/coordparamcircle.html
+    /// M. Moody 10/18
     /// </summary>
     class Spiro {
 
